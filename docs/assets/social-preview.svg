@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title description">
+  <title id="title">TTAutomator — desktop automation for Android</title>
+  <desc id="description">TTAutomator wordmark with turquoise and pink T shapes and three connected phones, on a charcoal background.</desc>
+  <rect width="1280" height="640" fill="#111115"/>
+  <rect x="40" y="40" width="1200" height="560" rx="12" fill="none" stroke="#34343c"/>
+  <g transform="translate(80 84)">
+    <rect x="1" y="1" width="94" height="94" rx="16" fill="#1b1b21" stroke="#34343c" stroke-width="2"/>
+    <path d="M16 26h31v10H37v34H26V36H16z" fill="#00f2ea"/>
+    <path d="M49 26h31v10H70v34H59V36H49z" fill="#ff0050"/>
+  </g>
+  <g font-family="Inter, Segoe UI, sans-serif">
+    <text x="80" y="284" fill="#fafafa" font-size="78" font-weight="700" letter-spacing="-3">TTAutomator</text>
+    <text x="83" y="345" fill="#eeeeef" font-size="28">Your Android devices.</text>
+    <text x="83" y="387" fill="#eeeeef" font-size="28">One desktop workflow.</text>
+    <text x="83" y="460" fill="#a6a6b0" font-size="21">TikTok automation with Electron, Appium and ADB.</text>
+    <text x="83" y="548" fill="#00f2ea" font-size="19">Open source · Windows · ISC</text>
+    <text x="1177" y="548" fill="#a6a6b0" font-size="17" text-anchor="end">github.com/dawidmostorski/TTAutomator</text>
+  </g>
+  <g fill="none" stroke-width="2.5">
+    <path d="M804 417h361M986 376v41M854 360v57M1118 360v57" stroke="#41414d"/>
+    <rect x="813" y="176" width="82" height="184" rx="12" fill="#19191f" stroke="#41414d"/>
+    <rect x="937" y="145" width="98" height="231" rx="12" fill="#19191f" stroke="#00f2ea"/>
+    <rect x="1077" y="176" width="82" height="184" rx="12" fill="#19191f" stroke="#41414d"/>
+    <path d="M836 190h36M963 160h46M1100 190h36" stroke="#696975" stroke-linecap="round"/>
+    <path d="M846 239l23 16-23 16zM975 224l29 22-29 22zM1110 239l23 16-23 16z" fill="#00f2ea" stroke="#00f2ea" stroke-linejoin="round"/>
+    <path d="M830 312h47M957 318h58M1094 312h47" stroke="#41414d" stroke-linecap="round"/>
+    <path d="M830 325h27M957 333h35M1094 325h27" stroke="#41414d" stroke-linecap="round"/>
+    <circle cx="986" cy="417" r="6" fill="#ff0050" stroke="#ff0050"/>
+  </g>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="320" viewBox="0 0 1280 320" role="img" aria-labelledby="title description">
+  <title id="title">TTAutomator</title>
+  <desc id="description">Open source desktop control for TikTok on Android. Charcoal canvas, turquoise and pink accents, and a three-phone illustration.</desc>
+  <rect width="1280" height="320" rx="12" fill="#111115"/>
+  <path d="M0 319.5h1280" stroke="#33333c"/>
+  <g transform="translate(48 54)">
+    <rect x="1" y="1" width="70" height="70" rx="12" fill="#1b1b21" stroke="#34343c"/>
+    <path d="M12 20h23v8h-7v26h-9V28h-7z" fill="#00f2ea"/>
+    <path d="M37 20h23v8h-7v26h-9V28h-7z" fill="#ff0050"/>
+  </g>
+  <g font-family="Inter, Segoe UI, sans-serif">
+    <text x="142" y="110" fill="#fafafa" font-size="58" font-weight="700" letter-spacing="-2">TTAutomator</text>
+    <text x="50" y="175" fill="#eeeeef" font-size="26">Your Android devices. One desktop workflow.</text>
+    <text x="50" y="220" fill="#a6a6b0" font-size="18">TikTok automation with Electron, Appium and ADB.</text>
+    <text x="50" y="276" fill="#a6a6b0" font-size="16">Windows</text>
+    <path d="M132 263v16" stroke="#44444e"/>
+    <text x="153" y="276" fill="#a6a6b0" font-size="16">Android</text>
+    <path d="M232 263v16" stroke="#44444e"/>
+    <text x="253" y="276" fill="#00f2ea" font-size="16">Open source · ISC</text>
+  </g>
+  <g fill="none" stroke-width="2">
+    <path d="M843 228h310M998 201v27M887 188v40M1109 188v40" stroke="#41414d"/>
+    <rect x="847" y="65" width="80" height="132" rx="11" fill="#19191f" stroke="#41414d"/>
+    <rect x="958" y="43" width="80" height="158" rx="11" fill="#19191f" stroke="#00f2ea"/>
+    <rect x="1069" y="65" width="80" height="132" rx="11" fill="#19191f" stroke="#41414d"/>
+    <path d="M871 76h32M982 54h32M1093 76h32" stroke="#696975" stroke-linecap="round"/>
+    <path d="M880 112l19 13-19 13zM991 106l19 15-19 15zM1102 112l19 13-19 13z" fill="#00f2ea" stroke="#00f2ea" stroke-linejoin="round"/>
+    <path d="M864 165h45M975 166h45M1086 165h45" stroke="#41414d" stroke-linecap="round"/>
+    <circle cx="998" cy="228" r="5" fill="#ff0050" stroke="#ff0050"/>
+  </g>
+</svg>
