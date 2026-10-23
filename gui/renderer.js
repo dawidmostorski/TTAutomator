@@ -763,10 +763,10 @@ function renderUploadQueue() {
     const labels = { pending: 'Oczekuje', publishing: 'Publikowanie...', published: 'Opublikowany', failed: 'Błąd' };
 
     container.innerHTML = uploadQueue.map(v => `
-        <div style="display: flex; align-items: center; padding: 8px; border-bottom: 1px solid var(--border); gap: 12px;">
+        <div style="display: flex; align-items: center; padding: 8px; border-bottom: 1px solid var(--border-color); gap: 12px;">
             <span style="font-size: 1.2em;">${icons[v.status] || '⏳'}</span>
             <span style="flex: 1; color: var(--text-primary);">${v.filename}</span>
-            <span style="color: ${v.status === 'failed' ? 'var(--danger)' : 'var(--text-muted)'}; font-size: 0.85em;">
+            <span style="color: ${v.status === 'failed' ? 'var(--accent-pink)' : 'var(--text-secondary)'}; font-size: 0.85em;">
                 ${labels[v.status] || v.status}${v.error ? ': ' + v.error : ''}
             </span>
             ${v.hasConfig ? '<span title="Ma plik .txt" style="font-size: 0.8em;">📄</span>' : ''}

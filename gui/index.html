@@ -74,7 +74,7 @@
         .logo-icon {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, var(--accent-teal), var(--accent-pink));
+            background: transparent;
             border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
@@ -385,6 +385,28 @@
             width: auto;
         }
 
+        .btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid var(--accent-teal);
+            outline-offset: 3px;
+        }
+
+        #page-upload .btn {
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        #page-upload .form-group,
+        #upload-folder {
+            min-width: 0;
+        }
+
         /* ===== MAIN CONTENT ===== */
         .main-content {
             display: flex;
@@ -396,7 +418,7 @@
         /* ===== STATS GRID ===== */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, minmax(0, 1fr));
             gap: 15px;
         }
 
@@ -935,7 +957,7 @@
         <!-- HEADER -->
         <header class="header">
             <div class="logo">
-                <div class="logo-icon">📱</div>
+                <div class="logo-icon"><img src="assets/logo.svg" width="40" height="40" alt=""></div>
                 <span class="logo-text">TTAutomator</span>
             </div>
 
@@ -1052,7 +1074,7 @@
                 <label>Folder z filmami</label>
                 <div style="display: flex; gap: 10px;">
                     <input type="text" id="upload-folder" placeholder="Wybierz folder..." readonly style="flex: 1;">
-                    <button class="btn" id="btn-select-folder" style="white-space: nowrap;">📁 Wybierz</button>
+                    <button class="btn btn-secondary" id="btn-select-folder" style="white-space: nowrap;">📁 Wybierz</button>
                 </div>
             </div>
             <div class="form-group" style="flex: 1;">
@@ -1067,9 +1089,9 @@
         <div style="margin-bottom: 20px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <h3 style="color: var(--text-secondary); margin: 0;">Kolejka filmów</h3>
-                <button class="btn btn-small" id="btn-refresh-queue">🔄 Odśwież</button>
+                <button class="btn btn-secondary btn-sm" id="btn-refresh-queue">🔄 Odśwież</button>
             </div>
-            <div id="upload-queue" style="max-height: 300px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 10px;">
+            <div id="upload-queue" style="max-height: 300px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px;">
                 <p style="color: var(--text-muted); text-align: center;">Wybierz folder aby zobaczyć filmy...</p>
             </div>
         </div>
@@ -1090,8 +1112,8 @@
                 <span id="upload-progress-label" style="color: var(--text-secondary);">...</span>
                 <span id="upload-progress-step" style="color: var(--text-muted);">0/0</span>
             </div>
-            <div style="background: var(--bg-tertiary); border-radius: 4px; height: 6px; overflow: hidden;">
-                <div id="upload-progress-bar" style="background: var(--accent); height: 100%; width: 0%; transition: width 0.3s;"></div>
+            <div style="background: var(--bg-card); border-radius: 4px; height: 6px; overflow: hidden;">
+                <div id="upload-progress-bar" style="background: var(--accent-teal); height: 100%; width: 0%; transition: width 0.3s;"></div>
             </div>
         </div>
     </div>
