@@ -18,6 +18,7 @@ const applicationFiles = new Set([
     'gui/main.js',
     'gui/preload.js',
     'gui/renderer.js',
+    'gui/assets/logo.svg',
     'prompt_fitness.txt',
     'prompt_humor.txt',
     'prompt_odpowiedzi.txt',
@@ -26,7 +27,7 @@ const applicationFiles = new Set([
 
 function shouldPackagePath(filename) {
     const relative = filename.replace(/\\/g, '/').replace(/^\/+/, '');
-    if (relative === '' || relative === 'gui' || relative === 'examples') return true;
+    if (relative === '' || relative === 'gui' || relative === 'gui/assets' || relative === 'examples') return true;
     if (relative === 'node_modules') return true;
     if (relative.startsWith('node_modules/')) {
         return !/^node_modules\/(appium|appium-uiautomator2-driver)(\/|$)/.test(relative);
