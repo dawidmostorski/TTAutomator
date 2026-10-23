@@ -1,0 +1,33 @@
+{
+  "name": "ttautomator",
+  "productName": "TTAutomator",
+  "version": "1.0.0",
+  "description": "Desktop automation for TikTok on Android using Electron, Appium and ADB",
+  "private": true,
+  "main": "gui/main.js",
+  "scripts": {
+    "start": "electron .",
+    "check": "node scripts/check.js",
+    "build": "node scripts/build.js"
+  },
+  "keywords": [
+    "tiktok",
+    "appium",
+    "automation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "openai": "^4.20.0",
+    "pixelmatch": "^7.1.0",
+    "pngjs": "^7.0.0",
+    "sharp": "^0.34.5",
+    "webdriverio": "^9.23.0"
+  },
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-packager": "^17.1.2"
+  }
+}

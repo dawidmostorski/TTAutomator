@@ -1,0 +1,45 @@
+# Dependencies and generated distributions
+node_modules/
+/dist/
+/dist_*/
+/backup/
+/_dist_backup/
+
+# Credentials, personal device settings and runtime data
+.env
+.env.*
+!.env.example
+/device_configs.json
+/comments_config.json
+/history.json
+/visited.json
+/raporty/
+*.log
+/appium log.txt
+/error*.txt
+/spy_dump_*.xml
+/spy_log_*.xml
+/spy_*.png
+/debug_*.png
+/Screenshot_*.png
+
+# Local screenshots, unrelated files and historical working notes
+/*.png
+/*.webp
+/nul
+/cennik-zaktualizowany.html
+/main_v5.js
+/PROJECT_STATUS_APPIUM.md
+/docs/plans/
+
+# Local assistant/editor state
+/.claude/
+/.codex/
+/.agents/
+/.gemini-clipboard/
+/.vscode/
+/.idea/
+.DS_Store
+Thumbs.db
+*.pem
+*.key
