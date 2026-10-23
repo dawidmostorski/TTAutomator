@@ -1,0 +1,2 @@
+OPIS: Krótki opis filmu
+HASHTAGI: #przyklad #video
