@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title">
+  <title id="title">TTAutomator</title>
+  <rect x="1" y="1" width="94" height="94" rx="16" fill="#111115" stroke="#34343c" stroke-width="2"/>
+  <path d="M16 26h31v10H37v34H26V36H16z" fill="#00f2ea"/>
+  <path d="M49 26h31v10H70v34H59V36H49z" fill="#ff0050"/>
+</svg>
