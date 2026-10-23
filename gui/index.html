@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTAutomator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0d0d0d;
+            --bg-secondary: rgba(30, 30, 30, 0.8);
+            --bg-card: rgba(40, 40, 40, 0.6);
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --accent-teal: #00f2ea;
+            --accent-pink: #ff0050;
+            --accent-green: #4ade80;
+            --accent-orange: #f97316;
+            --accent-yellow: #facc15;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 50%, #16213e 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ===== LAYOUT ===== */
+        .app-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            /* Usunięto sidebar - teraz 1 kolumna */
+            grid-template-rows: auto 1fr;
+            height: 100vh;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 25px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-pink));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px;
+            border-radius: var(--radius-md);
+        }
+
+        .nav-tab {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+
+        .nav-tab.active {
+            background: var(--accent-teal);
+            color: #000;
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.idle {
+            background: var(--text-muted);
+            animation: none;
+        }
+
+        .status-dot.working {
+            background: var(--accent-green);
+        }
+
+        .status-dot.sleeping {
+            background: var(--accent-yellow);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+        }
+
+        .card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== FORM ELEMENTS ===== */
+        label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        select,
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: var(--accent-teal);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 12px;
+            resize: vertical;
+            outline: none;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            border-color: var(--accent-teal);
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-row>* {
+            flex: 1;
+        }
+
+        /* ===== TABS ===== */
+        .tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--radius-sm);
+            padding: 3px;
+            margin-bottom: 12px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-teal);
+            color: #000;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ===== SLIDERS ===== */
+        .slider-group {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 10px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .slider-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .slider-value {
+            font-size: 12px;
+            color: var(--accent-teal);
+            font-weight: 600;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 4px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-teal);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-teal), #00c4bd);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 242, 234, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--accent-pink), #d60043);
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(255, 0, 80, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 12px;
+            width: auto;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-value.pink {
+            color: var(--accent-pink);
+        }
+
+        .stat-value.teal {
+            color: var(--accent-teal);
+        }
+
+        .stat-value.green {
+            color: var(--accent-green);
+        }
+
+        .stat-value.orange {
+            color: var(--accent-orange);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-change {
+            font-size: 11px;
+            color: var(--accent-green);
+            margin-top: 8px;
+        }
+
+        /* ===== DEVICES TABLE ===== */
+        .devices-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .panel-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .table-container {
+            flex: 1;
+            overflow-y: auto;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        th {
+            padding: 15px 20px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 15px 20px;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .device-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .device-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-pink));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .device-id {
+            font-weight: 500;
+        }
+
+        .device-model {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .status-badge.idle {
+            background: rgba(102, 102, 102, 0.2);
+            color: var(--text-muted);
+        }
+
+        .status-badge.working {
+            background: rgba(74, 222, 128, 0.2);
+            color: var(--accent-green);
+        }
+
+        .status-badge.sleeping {
+            background: rgba(250, 204, 21, 0.2);
+            color: var(--accent-yellow);
+        }
+
+        .stats-mini {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+        }
+
+        .stats-mini span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stats-mini .pink {
+            color: var(--accent-pink);
+        }
+
+        .stats-mini .teal {
+            color: var(--accent-teal);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        /* ===== CONSOLE ===== */
+        .console-panel {
+            height: 150px;
+            flex-shrink: 0;
+        }
+
+        .console-container {
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 15px;
+            overflow-y: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            color: var(--accent-green);
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        .console-line {
+            padding: 2px 0;
+            opacity: 0.9;
+        }
+
+        /* ===== STATUS BAR ===== */
+        #status-display {
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: var(--radius-sm);
+            margin-top: 10px;
+        }
+
+        .status-idle {
+            background: rgba(102, 102, 102, 0.2);
+            color: var(--text-muted);
+        }
+
+        .status-working {
+            background: rgba(0, 242, 234, 0.15);
+            color: var(--accent-teal);
+            border: 1px solid rgba(0, 242, 234, 0.3);
+        }
+
+        .status-sleeping {
+            background: rgba(250, 204, 21, 0.15);
+            color: var(--accent-yellow);
+            border: 1px solid rgba(250, 204, 21, 0.3);
+        }
+
+        /* ===== DEVICE CARDS ===== */
+        .devices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .device-placeholder {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+        }
+
+        .device-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .device-card:hover {
+            border-color: var(--accent-teal);
+            transform: translateY(-2px);
+        }
+
+        .device-card.running {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.15);
+        }
+
+        .device-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .device-name-block {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+
+        .device-nickname {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--accent-teal);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .device-name {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .device-model-label {
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .device-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .device-status.running {
+            background: rgba(74, 222, 128, 0.2);
+            color: var(--accent-green);
+        }
+
+        .device-status.idle {
+            background: rgba(107, 114, 128, 0.2);
+            color: var(--text-muted);
+        }
+
+        .device-status.stopping {
+            background: rgba(255, 0, 80, 0.2);
+            color: var(--accent-pink);
+        }
+
+        .device-status.sleeping {
+            background: rgba(250, 204, 21, 0.2);
+            color: var(--accent-yellow);
+        }
+
+        .device-status.sleeping .device-status-dot {
+            animation: pulse 2s infinite;
+        }
+
+        .device-status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .device-status.running .device-status-dot {
+            animation: pulse 1.5s infinite;
+        }
+
+        .device-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-sm);
+        }
+
+        .device-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .device-stat-value {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .device-stat-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .device-stat-value.watched {
+            color: var(--accent-yellow);
+        }
+
+        .device-stat-value.likes {
+            color: var(--accent-pink);
+        }
+
+        .device-stat-value.follows {
+            color: var(--accent-teal);
+        }
+
+        .device-stat-value.comments {
+            color: var(--accent-green);
+        }
+
+        .device-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            min-height: 18px;
+        }
+
+        .device-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .device-actions .btn {
+            flex: 1;
+            padding: 10px;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            width: 90%;
+            max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            justify-content: flex-end;
+        }
+
+        .modal-footer .btn {
+            width: auto;
+            min-width: 100px;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== PAGE SYSTEM ===== */
+        .page {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        /* Helper */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">📱</div>
+                <span class="logo-text">TTAutomator</span>
+            </div>
+
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-page="dashboard">Farm Dashboard</button>
+                <button class="nav-tab" data-page="unfollow">🗑️ Unfollow</button>
+                <button class="nav-tab" data-page="upload">Upload (BETA)</button>
+                <button class="nav-tab" data-page="settings">Ustawienia</button>
+            </div>
+
+            <div class="header-actions">
+                <div class="header-status">
+                    <span class="status-dot idle" id="header-status-dot"></span>
+                    <span id="header-status-text">Gotowy</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- SIDEBAR USUNIĘTY - każde urządzenie ma własne ustawienia w modalu -->
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- PAGE: DASHBOARD -->
+            <div class="page active" id="page-dashboard">
+
+                <!-- STATS GRID -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-value" id="global-watched">0</span>
+                        <span class="stat-label">Obejrzane</span>
+                        <span class="stat-change">Łączna suma</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value pink" id="global-likes">0</span>
+                        <span class="stat-label">Polubienia</span>
+                        <span class="stat-change">❤️ Likes</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value teal" id="global-follows">0</span>
+                        <span class="stat-label">Obserwacje</span>
+                        <span class="stat-change">➕ Follows</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value green" id="global-comments">0</span>
+                        <span class="stat-label">Komentarze</span>
+                        <span class="stat-change">💬 Comments</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value orange" id="global-replies">0</span>
+                        <span class="stat-label">Odpowiedzi</span>
+                        <span class="stat-change">👍 Replies</span>
+                    </div>
+                </div>
+
+                <!-- DEVICES CARDS -->
+                <div class="devices-panel card">
+                    <div class="panel-header">
+                        <span class="panel-title">📱 Farm Dashboard</span>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-secondary btn-sm" id="btn-scan-devices">🔄 Skanuj ADB</button>
+                            <button class="btn btn-danger btn-sm" id="btn-stop-all">⏹️ Stop All</button>
+                        </div>
+                    </div>
+
+                    <div class="devices-grid" id="devices-container">
+                        <div class="device-placeholder">
+                            Brak urządzeń. Kliknij "Skanuj ADB".
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- END page-dashboard -->
+
+            <!-- PAGE: UNFOLLOW -->
+            <div class="page" id="page-unfollow">
+                <div class="card" style="padding: 30px;">
+                    <h2 style="margin-bottom: 20px; color: var(--text-primary);">🗑️ Unfollow Manager</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 30px;">
+                        Automatycznie przestań obserwować użytkowników zaobserwowanych więcej niż X dni temu.
+                    </p>
+
+                    <div class="form-row" style="margin-bottom: 30px;">
+                        <div class="form-group">
+                            <label>Po X dniach</label>
+                            <input type="number" id="unfollow-days" value="3" min="1" max="30">
+                        </div>
+                        <div class="form-group">
+                            <label>Max na sesję</label>
+                            <input type="number" id="unfollow-max" value="10" min="1" max="100">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 30px;">
+                        <label>Wybierz urządzenie</label>
+                        <select id="unfollow-device" style="max-width: 400px;">
+                            <option value="">Skanuj ADB aby zobaczyć urządzenia...</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-danger" id="btn-unfollow" style="max-width: 300px;">
+                        🗑️ Uruchom Unfollow
+                    </button>
+                </div>
+            </div>
+
+<!-- PAGE: UPLOAD -->
+<div class="page" id="page-upload">
+    <div class="card" style="padding: 30px;">
+        <h2 style="margin-bottom: 20px; color: var(--text-primary);">📤 Publikowanie</h2>
+
+        <!-- Folder + Device selection -->
+        <div class="form-row" style="margin-bottom: 20px;">
+            <div class="form-group" style="flex: 2;">
+                <label>Folder z filmami</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="upload-folder" placeholder="Wybierz folder..." readonly style="flex: 1;">
+                    <button class="btn" id="btn-select-folder" style="white-space: nowrap;">📁 Wybierz</button>
+                </div>
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label>Urządzenie</label>
+                <select id="upload-device">
+                    <option value="">Skanuj ADB...</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Queue -->
+        <div style="margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="color: var(--text-secondary); margin: 0;">Kolejka filmów</h3>
+                <button class="btn btn-small" id="btn-refresh-queue">🔄 Odśwież</button>
+            </div>
+            <div id="upload-queue" style="max-height: 300px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 10px;">
+                <p style="color: var(--text-muted); text-align: center;">Wybierz folder aby zobaczyć filmy...</p>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+            <button class="btn btn-primary" id="btn-publish-next" disabled>
+                ▶ Publikuj następny
+            </button>
+            <button class="btn btn-danger" id="btn-publish-stop" disabled>
+                ⏹ Zatrzymaj
+            </button>
+        </div>
+
+        <!-- Progress -->
+        <div id="upload-progress" style="margin-top: 20px; display: none;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <span id="upload-progress-label" style="color: var(--text-secondary);">...</span>
+                <span id="upload-progress-step" style="color: var(--text-muted);">0/0</span>
+            </div>
+            <div style="background: var(--bg-tertiary); border-radius: 4px; height: 6px; overflow: hidden;">
+                <div id="upload-progress-bar" style="background: var(--accent); height: 100%; width: 0%; transition: width 0.3s;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- PAGE: SETTINGS -->
+            <div class="page" id="page-settings">
+                <div class="card" style="padding: 50px; text-align: center;">
+                    <h2 style="color: var(--text-muted);">⚙️ Ustawienia</h2>
+                    <p style="color: var(--text-muted); margin-top: 20px;">Globalne ustawienia aplikacji...</p>
+                </div>
+            </div>
+
+            <!-- DEVICE SETTINGS MODAL -->
+            <div class="modal-overlay" id="device-settings-modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>⚙️ Ustawienia: <span id="modal-device-name"></span></h3>
+                        <button class="modal-close" id="modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Nazwa (np. nazwa konta)</label>
+                            <input type="text" id="modal-nickname" placeholder="np. FitnessKuba, HumorPL...">
+                        </div>
+                        <div class="form-group">
+                            <label>Tryb pracy</label>
+                            <select id="modal-mode">
+                                <option value="feed">Feed Główny (Dla Ciebie)</option>
+                                <option value="tags">Wyszukiwanie Tagów</option>
+                                <option value="replies">💬 Odpowiedzi na komentarze</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="modal-tag-container">
+                            <label>Tag</label>
+                            <input type="text" id="modal-tag" placeholder="np. koty">
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label">
+                                    <input type="checkbox" id="modal-check-like" checked> ❤️ Like
+                                </span>
+                                <span class="slider-value" id="modal-val-like">70%</span>
+                            </div>
+                            <input type="range" id="modal-prob-like" min="0" max="1" step="0.05" value="0.7">
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label">
+                                    <input type="checkbox" id="modal-check-comment" checked> 💬 Komentarz
+                                </span>
+                                <span class="slider-value" id="modal-val-comment">40%</span>
+                            </div>
+                            <input type="range" id="modal-prob-comment" min="0" max="1" step="0.05" value="0.4">
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label">
+                                    <input type="checkbox" id="modal-check-follow" checked> ➕ Follow
+                                </span>
+                                <span class="slider-value" id="modal-val-follow">30%</span>
+                            </div>
+                            <input type="range" id="modal-prob-follow" min="0" max="1" step="0.05" value="0.3">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tryb komentarzy</label>
+                            <select id="modal-comment-mode">
+                                <option value="ai">🧠 AI (OpenAI GPT)</option>
+                                <option value="list">📋 Lista statyczna</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="modal-ai-container">
+                            <label>AI Prompt</label>
+                            <textarea id="modal-ai-prompt"
+                                rows="3">Jesteś luźnym użytkownikiem TikToka. Komentuj krótko, naturalnie, po polsku.</textarea>
+                        </div>
+
+                        <div class="form-group" id="modal-list-container" style="display: none;">
+                            <label>Statyczne komentarze (jeden na linię)</label>
+                            <textarea id="modal-static-comments" rows="4"
+                                placeholder="Super!&#10;Świetne!&#10;🔥🔥🔥"></textarea>
+                        </div>
+
+                        <!-- REPLIES MODE SETTINGS -->
+                        <div id="modal-replies-container" style="display: none;">
+                            <div class="slider-group">
+                                <div class="slider-header">
+                                    <span class="slider-label">
+                                        <input type="checkbox" id="modal-check-reply" checked> 💬 Odpowiedź
+                                    </span>
+                                    <span class="slider-value" id="modal-val-reply">35%</span>
+                                </div>
+                                <input type="range" id="modal-prob-reply" min="0" max="1" step="0.05" value="0.35">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Prompt dla odpowiedzi (opcjonalny)</label>
+                                <textarea id="modal-reply-prompt" rows="3"
+                                    placeholder="Np. 'Odpowiadaj tylko na pytania o produkt' lub zostaw puste dla domyślnego"></textarea>
+                                <small style="color: var(--text-muted); display: block; margin-top: 5px;">
+                                    AI automatycznie wybierze komentarz i zasugeruje odpowiedź
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Praca (min)</label>
+                                <input type="number" id="modal-work-time" value="120">
+                            </div>
+                            <div class="form-group">
+                                <label>Sen (min)</label>
+                                <input type="number" id="modal-sleep-time" value="60">
+                            </div>
+                        </div>
+
+                        <!-- KALIBRACJA WSPÓŁRZĘDNYCH -->
+                        <details style="margin-top: 15px;">
+                            <summary style="cursor: pointer; color: var(--text-secondary); font-size: 13px; font-weight: 500; margin-bottom: 10px;">
+                                📐 Kalibracja współrzędnych (Y%)
+                            </summary>
+                            <p style="color: var(--text-muted); font-size: 11px; margin-bottom: 10px;">
+                                Za wysoko? Zwiększ wartość. Za nisko? Zmniejsz. Domyślne dla G31.
+                            </p>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Follow (+)</label>
+                                    <input type="number" id="modal-cal-follow" value="54" min="40" max="70" step="0.5">
+                                </div>
+                                <div class="form-group">
+                                    <label>Like</label>
+                                    <input type="number" id="modal-cal-like" value="60.5" min="50" max="75" step="0.5">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Komentarz</label>
+                                    <input type="number" id="modal-cal-comment" value="66" min="55" max="80" step="0.5">
+                                </div>
+                                <div class="form-group">
+                                    <label>Wyślij</label>
+                                    <input type="number" id="modal-cal-send" value="61" min="50" max="75" step="0.5">
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" id="modal-cancel">Anuluj</button>
+                        <button class="btn btn-primary" id="modal-save">💾 Zapisz</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONSOLE -->
+            <div class="console-panel">
+                <div class="console-container" id="console-output">
+                    <div class="console-line" style="color: var(--text-muted);">--- TTAutomator Console ---</div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+
+</html>
