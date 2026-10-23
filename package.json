@@ -8,6 +8,7 @@
   "scripts": {
     "start": "electron .",
     "check": "node scripts/check.js",
+    "docs:screenshots": "electron scripts/capture-screenshots.js",
     "build": "node scripts/build.js"
   },
   "keywords": [

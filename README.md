@@ -1,17 +1,46 @@
-# TTAutomator
+![TTAutomator — your Android devices, one desktop workflow](docs/assets/banner.svg)
+
+[![Check and build](https://github.com/dawidmostorski/TTAutomator/actions/workflows/check.yml/badge.svg)](https://github.com/dawidmostorski/TTAutomator/actions/workflows/check.yml)
+[![License: ISC](https://img.shields.io/badge/License-ISC-00b8b2?style=flat-square)](LICENSE)
+[![Platform: Windows](https://img.shields.io/badge/Platform-Windows-34343c?style=flat-square)](#requirements)
 
 An open source Windows desktop application for automating TikTok on Android phones through **Electron, Appium, UiAutomator2 and ADB**. The interface is currently in Polish.
 
+**[Quick start](#quick-start)** · [Screenshots](#screenshots) · [Windows build](#development-and-windows-build) · [Instrukcja po polsku](INSTALACJA.md)
+
+## Screenshots
+
+The current Electron interface, rendered with demo devices and example filenames. All counters start at zero; no real account data or device IDs are shown.
+
+![TTAutomator dashboard with three demo Android devices, per-device controls and session counters](docs/assets/dashboard.png)
+
+<details>
+<summary><strong>Per-device settings</strong> — interaction probabilities, comment prompts and calibration</summary>
+
+Each phone has its own settings. Configure feed, hashtag or reply mode, choose AI or static comments, and adjust work/sleep cycles and screen coordinates.
+
+<img src="docs/assets/device-settings.png" width="524" alt="Actual TTAutomator device settings dialog using the DEMO-01 device and a generic Polish comment prompt">
+
+</details>
+
+<details>
+<summary><strong>Video publishing</strong> — a local folder, a device and a publishing queue</summary>
+
+Pick a folder of videos and publish the next item. Matching text files supply descriptions and hashtags; the queue marks which videos have a configuration file.
+
+![TTAutomator publishing tab with three example videos waiting in the queue](docs/assets/publishing.png)
+
+</details>
+
 ## Features
 
-- Manage connected Android phones from one dashboard, with separate settings and calibration per device.
-- Browse the main feed or search for hashtags.
-- Configure the probability of likes, follows, comments and replies.
-- Generate comments with OpenAI or pick from a static list.
-- Analyze screenshots of comments and generate replies with an OpenAI vision model.
-- Run repeating work and sleep cycles, with recovery after navigation or session errors.
-- Transfer and publish a video from a local queue, using a matching `.txt` file for its description and hashtags.
-- Inspect Android UI elements with the included diagnostic scripts.
+| Workflow | What you can configure |
+| --- | --- |
+| **Device management** | Separate phone settings, coordinate calibration, repeating work/sleep cycles and session recovery. |
+| **Feed and hashtags** | Main feed or hashtag search, with configurable probabilities for likes, follows and comments. |
+| **Comments and replies** | OpenAI-generated or static comments, custom prompts, and screenshot-based analysis for replies. |
+| **Video publishing** | Local video queue, transfer to Android, descriptions and hashtags from matching `.txt` files. |
+| **Diagnostics** | UI inspection and calibration scripts for changes in TikTok's layout. |
 
 ## Requirements
 
@@ -74,6 +103,14 @@ npm run build
 ```
 
 `check` validates JavaScript syntax without connecting to a phone. GitHub Actions also checks syntax and builds the Windows application. This is not an end-to-end device test suite.
+
+To regenerate the documentation screenshots without connecting to a phone:
+
+```powershell
+npm run docs:screenshots
+```
+
+See [the visual assets guide](docs/branding.md) for the demo data and image sources.
 
 The build is written to `dist/TTAutomator-win32-x64/TTAutomator.exe`. Copy your own `.env` next to the executable before running it. Node.js, ADB and a running Appium server are still required: the desktop app launches its workers with the external `node` command.
 
